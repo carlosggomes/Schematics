@@ -12,7 +12,7 @@ locals {
 }
 
 resource ibm_is_vpc "vpc" {
-  name = "${cguanarany}-vpc"
+  name = "${cguarany}-vpc"
 }
 
 resource ibm_is_security_group "sg1" {
