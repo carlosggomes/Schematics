@@ -1,5 +1,5 @@
 variable "ssh_key" {}
-variable "resource_group" = {RG-cguarany}
+variable "resource_group" {"RG-cguarany"}
 
 provider "ibm" {
   generation = 1
