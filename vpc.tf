@@ -12,11 +12,11 @@ locals {
 }
 
 resource ibm_is_vpc "vpc" {
-  name = "$${cguarany}-vpc"
+  name = "${local.BASENAME}-vpc"
 }
 
 resource ibm_is_security_group "sg1" {
-  name = "$${cguarany}-sg1"
+  name = "${local.BASENAME}-sg1"
   vpc  = "${ibm_is_vpc.vpc.id}"
 }
 
@@ -33,7 +33,7 @@ resource "ibm_is_security_group_rule" "ingress_ssh_all" {
 }
 
 resource ibm_is_subnet "subnet1" {
-  name = "$${cguarany}-subnet1"
+  name = "${local.BASENAME}-subnet1"
   vpc  = "${ibm_is_vpc.vpc.id}"
   zone = "${local.ZONE}"
   total_ipv4_address_count = 256
@@ -52,7 +52,7 @@ data ibm_resource_group "group" {
 }
 
 resource ibm_is_instance "vsi1" {
-  name    = "$${cguarany}-vsi1"
+  name    = "${local.BASENAME}-vsi1"
   resource_group = "${data.ibm_resource_group.group.id}"
   vpc     = "${ibm_is_vpc.vpc.id}"
   zone    = "${local.ZONE}"
