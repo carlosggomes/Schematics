@@ -3,7 +3,7 @@ variable "resource_group" {}
 variable "name" {}
 
 provider "ibm" {
-  generation = 1
+  generation = 2
   region = "us-south"
 }
 
