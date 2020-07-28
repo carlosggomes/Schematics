@@ -41,7 +41,7 @@ resource ibm_is_subnet "subnet1" {
 }
 
 data ibm_is_image "ubuntu" {
-  name = "ubuntu-18.04-amd64"
+  name = "ibm-ubuntu-16-04-5-minimal-amd64-1"
 }
 
 data ibm_is_ssh_key "ssh_key_id" {
