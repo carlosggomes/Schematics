@@ -8,7 +8,7 @@ provider "ibm" {
 }
 
 locals {
-  BASENAME = "${name}" 
+  BASENAME = "${var.name}" 
   ZONE     = "us-south-1"
 }
 
