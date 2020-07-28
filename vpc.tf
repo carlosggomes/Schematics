@@ -1,5 +1,6 @@
 variable "ssh_key" {}
 variable "resource_group" {}
+variable "name" {}
 
 provider "ibm" {
   generation = 1
@@ -7,7 +8,7 @@ provider "ibm" {
 }
 
 locals {
-  BASENAME = "schematics" 
+  BASENAME = "${name}" 
   ZONE     = "us-south-1"
 }
 
