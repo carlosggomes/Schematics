@@ -40,8 +40,8 @@ resource "ibm_is_security_group_rule" "sg1_icmp_rule" {
   remote     = "0.0.0.0/0"
 
   icmp {
-    code = "any"
-    type = "any"
+    code = 0
+    type = 8
   }
 }
 
