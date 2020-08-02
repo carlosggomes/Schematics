@@ -34,6 +34,18 @@ resource "ibm_is_security_group_rule" "ingress_ssh_all" {
   }
 }
 
+# allow outcome ICMP
+resource "ibm_is_security_group_rule" "sg1_icmp_rule" {
+  group      = "${ibm_is_security_group.sg1.id}"
+  direction  = "outbound"
+  remote     = "0.0.0.0/0"
+
+  icmp {
+    code = 0
+    type = 8
+  }
+}
+
 # Create subnet
 resource ibm_is_subnet "subnet1" {
   name = "${local.BASENAME}-subnet1"
