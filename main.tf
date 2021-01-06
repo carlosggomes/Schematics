@@ -1,10 +1,3 @@
-#TERRAFORM V0.11
-
-# Define Variaveis
-variable "ssh_key" {}
-# variable "resource_group" {}
-variable "name" {}
-
 # Define Provider, VPC Gen2 and Region
 provider "ibm" {
   generation = 2
