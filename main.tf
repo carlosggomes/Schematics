@@ -12,7 +12,7 @@ locals {
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
   name = var.name
-  resource_group = "RG-cguarany"
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
 }
 
 # resource "ibm_is_vpc_route" "route1" {
@@ -37,7 +37,7 @@ resource "ibm_is_vpc_address_prefix" "addprefix1" {
 
 resource "ibm_is_subnet" "subnet1" {
   name            = "subnet1"
-  resource_group = "RG-cguarany"
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
   vpc             = ibm_is_vpc.vpc1.id
   zone            = var.zone1
   ipv4_cidr_block = "10.240.0.0/28"
@@ -45,7 +45,7 @@ resource "ibm_is_subnet" "subnet1" {
 
 resource "ibm_is_security_group" "sg1" {
   name = "sg1"
-  resource_group = "RG-cguarany"
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
   vpc  = ibm_is_vpc.vpc1.id
 }
 
@@ -60,7 +60,7 @@ data ibm_is_ssh_key "ssh_key_id" {
 
 resource "ibm_is_instance" "instance1" {
   name    = "instance1"
-  resource_group = "RG-cguarany"
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
   image   = var.image
   profile = var.profile
 
@@ -77,7 +77,7 @@ resource "ibm_is_instance" "instance1" {
 
 resource "ibm_is_floating_ip" "floatingip1" {
   name   = "fip1"
-  resource_group = "RG-cguarany"
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
   target = ibm_is_instance.instance1.primary_network_interface[0].id
 }
 
