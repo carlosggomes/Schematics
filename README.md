@@ -14,3 +14,4 @@ Run terraform destroy when you don't need these resources.
 
 Notes
 The Variables used in main.tf are declared in variables.tf
+source = https://github.com/IBM-Cloud/terraform-provider-ibm/blob/master/examples/ibm-is-vpc/main.tf
