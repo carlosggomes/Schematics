@@ -11,8 +11,7 @@ locals {
 
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
-  name = var.name-vpc
-  resource_group = RG-cguarany
+  name = var.name
 }
 
 # resource "ibm_is_vpc_route" "route1" {
