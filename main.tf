@@ -32,9 +32,9 @@ resource "ibm_is_vpc_address_prefix" "addprefix1" {
   cidr = "10.120.0.0/24"
 }
 
-data "ibm_is_instance" "ds_instance" {
-  name = "vsi_instance"
-}
+# data "ibm_is_instance" "ds_instance" {
+#   name = "vsi_instance"
+# }
 
 resource "ibm_is_subnet" "subnet1" {
   name            = "subnet1"
@@ -122,106 +122,6 @@ resource "ibm_is_security_group_rule" "sg1_app_tcp_rule" {
   }
 }
 
-
-# resource "ibm_is_vpc" "vpc2" {
-#   name = "vpc2"
-# }
-
-# resource "ibm_is_subnet" "subnet2" {
-#   name            = "subnet2"
-#   vpc             = ibm_is_vpc.vpc2.id
-#   zone            = var.zone2
-#   ipv4_cidr_block = "10.240.64.0/28"
-# }
-
-# resource "ibm_is_ipsec_policy" "example" {
-#   name                     = "test-ipsec"
-#   authentication_algorithm = "md5"
-#   encryption_algorithm     = "triple_des"
-#   pfs                      = "disabled"
-# }
-
-# resource "ibm_is_ike_policy" "example" {
-#   name                     = "test-ike"
-#   authentication_algorithm = "md5"
-#   encryption_algorithm     = "triple_des"
-#   dh_group                 = 2
-#   ike_version              = 1
-# }
-
-# resource "ibm_is_vpn_gateway" "VPNGateway2" {
-#   name   = "vpn2"
-#   subnet = ibm_is_subnet.subnet2.id
-#   mode   = "policy"
-# }
-
-# resource "ibm_is_vpn_gateway_connection" "VPNGatewayConnection2" {
-#   name           = "vpnconn2"
-#   vpn_gateway    = ibm_is_vpn_gateway.VPNGateway2.id
-#   peer_address   = ibm_is_vpn_gateway.VPNGateway2.public_ip_address
-#   preshared_key  = "VPNDemoPassword"
-#   local_cidrs    = [ibm_is_subnet.subnet2.ipv4_cidr_block]
-#   peer_cidrs     = [ibm_is_subnet.subnet1.ipv4_cidr_block]
-#   admin_state_up = true
-#   ike_policy     = ibm_is_ike_policy.example.id
-# }
-
-# resource "ibm_is_instance" "instance2" {
-#   name    = "instance2"
-#   image   = var.image
-#   profile = var.profile
-
-#   primary_network_interface {
-#     subnet = ibm_is_subnet.subnet2.id
-#   }
-
-#   vpc       = ibm_is_vpc.vpc2.id
-#   zone      = var.zone2
-#   keys      = [ibm_is_ssh_key.sshkey.id]
-#   user_data = file("nginx.sh")
-# }
-
-# resource "ibm_is_floating_ip" "floatingip2" {
-#   name   = "fip2"
-#   target = ibm_is_instance.instance2.primary_network_interface[0].id
-# }
-
-# resource "ibm_is_security_group_rule" "sg2_tcp_rule" {
-#   depends_on = [ibm_is_floating_ip.floatingip2]
-#   group      = ibm_is_vpc.vpc2.default_security_group
-#   direction  = "inbound"
-#   remote     = "0.0.0.0/0"
-
-#   tcp {
-#     port_min = 22
-#     port_max = 22
-#   }
-# }
-
-# resource "ibm_is_security_group_rule" "sg2_icmp_rule" {
-#   depends_on = [ibm_is_floating_ip.floatingip2]
-#   group      = ibm_is_vpc.vpc2.default_security_group
-#   direction  = "inbound"
-#   remote     = "0.0.0.0/0"
-
-#   icmp {
-#     code = 0
-#     type = 8
-#   }
-# }
-
-# resource "ibm_is_security_group_rule" "sg2_app_tcp_rule" {
-#   depends_on = [ibm_is_floating_ip.floatingip2]
-#   group      = ibm_is_vpc.vpc2.default_security_group
-#   direction  = "inbound"
-#   remote     = "0.0.0.0/0"
-
-#   tcp {
-#     port_min = 80
-#     port_max = 80
-#   }
-# }
-
 resource "ibm_is_volume" "vol1" {
   name    = "vol1"
   profile = "10iops-tier"
@@ -236,50 +136,50 @@ resource "ibm_is_volume" "vol2" {
   capacity = 200
 }
 
-resource "ibm_is_network_acl" "isExampleACL" {
-  name = "is-example-acl"
-  rules {
-    name        = "outbound"
-    action      = "allow"
-    source      = "0.0.0.0/0"
-    destination = "0.0.0.0/0"
-    direction   = "outbound"
-    tcp {
-      port_max        = 65535
-      port_min        = 1
-      source_port_max = 60000
-      source_port_min = 22
-    }
-  }
-  rules {
-    name        = "inbound"
-    action      = "allow"
-    source      = "0.0.0.0/0"
-    destination = "0.0.0.0/0"
-    direction   = "inbound"
-    tcp {
-      port_max        = 65535
-      port_min        = 1
-      source_port_max = 60000
-      source_port_min = 22
-    }
-  }
-}
+# resource "ibm_is_network_acl" "isExampleACL" {
+#   name = "is-example-acl"
+#   rules {
+#     name        = "outbound"
+#     action      = "allow"
+#     source      = "0.0.0.0/0"
+#     destination = "0.0.0.0/0"
+#     direction   = "outbound"
+#     tcp {
+#       port_max        = 65535
+#       port_min        = 1
+#       source_port_max = 60000
+#       source_port_min = 22
+#     }
+#   }
+#   rules {
+#     name        = "inbound"
+#     action      = "allow"
+#     source      = "0.0.0.0/0"
+#     destination = "0.0.0.0/0"
+#     direction   = "inbound"
+#     tcp {
+#       port_max        = 65535
+#       port_min        = 1
+#       source_port_max = 60000
+#       source_port_min = 22
+#     }
+#   }
+# }
 
-resource "ibm_is_subnet_network_acl_attachment" attach {
-  subnet      = ibm_is_subnet.subnet1.id
-  network_acl = ibm_is_network_acl.isExampleACL.id
-}
+# resource "ibm_is_subnet_network_acl_attachment" attach {
+#   subnet      = ibm_is_subnet.subnet1.id
+#   network_acl = ibm_is_network_acl.isExampleACL.id
+# }
 
-resource "ibm_is_public_gateway" "publicgateway1" {
-  name = "gateway1"
-  vpc  = ibm_is_vpc.vpc1.id
-  zone = var.zone1
-}
+# resource "ibm_is_public_gateway" "publicgateway1" {
+#   name = "gateway1"
+#   vpc  = ibm_is_vpc.vpc1.id
+#   zone = var.zone1
+# }
 
-data "ibm_is_vpc" "vpc1" {
-  name = ibm_is_vpc.vpc1.name
-}
+# data "ibm_is_vpc" "vpc1" {
+#   name = ibm_is_vpc.vpc1.name
+# }
 # data "ibm_is_lb" "test_lb" {
 #   name = ibm_is_lb.lb1.name
 # }
@@ -289,10 +189,10 @@ data "ibm_is_vpc" "vpc1" {
 # }
 
 //custom route table for subnet 1
-resource "ibm_is_vpc_routing_table" "test_cr_route_table1" {
-  name = "test-cr-route-table1"
-  vpc  = ibm_is_vpc.vpc1.id
-}
+# resource "ibm_is_vpc_routing_table" "test_cr_route_table1" {
+#   name = "test-cr-route-table1"
+#   vpc  = ibm_is_vpc.vpc1.id
+# }
 
 // subnet 
 # resource "ibm_is_subnet" "test_cr_subnet1" {
@@ -386,6 +286,6 @@ resource "ibm_is_vpc_routing_table" "test_cr_route_table1" {
 #   gateway = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
 # }
 
-output sshcommand {
-  value = ssh root@$ibm_is_floating_ip.fip1.address
-}
+# output sshcommand {
+#   value = ssh root@$ibm_is_floating_ip.fip1.address
+# }
