@@ -1,5 +1,8 @@
+#TERRAFORM V0.11
+
+# Define Variaveis
 variable "ssh_key" {}
-variable "resource_group" {}
+# variable "resource_group" {}
 variable "name" {}
 
 # Define Provider, VPC Gen2 and Region
@@ -66,7 +69,7 @@ data ibm_is_ssh_key "ssh_key_id" {
 
 # Define Resource Group to be used
 data ibm_resource_group "group" {
-  name = "${var.resource_group}"
+  name = "RG-cguarany"
 }
 
 # Create VM in VPC
