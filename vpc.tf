@@ -5,12 +5,12 @@ variable "name" {}
 # Define Provider, VPC Gen2 and Region
 provider "ibm" {
   generation = 2
-  region = "us-south"
+  region = "eu-de"
 }
 
 locals {
   BASENAME = "${var.name}" 
-  ZONE     = "us-south-1"
+  ZONE     = "eu-de-1"
 }
 
 resource ibm_is_vpc "vpc" {
