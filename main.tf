@@ -24,12 +24,12 @@ resource "ibm_is_vpc" "vpc1" {
 #   depends_on  = [ibm_is_subnet.subnet1]
 # }
 
-resource "ibm_is_vpc_address_prefix" "addprefix1" {
-  name = "addprefix1"
-  zone = var.zone1
-  vpc  = ibm_is_vpc.vpc1.id
-  cidr = "10.120.0.0/24"
-}
+# resource "ibm_is_vpc_address_prefix" "addprefix1" {
+#   name = "addprefix1"
+#   zone = var.zone1
+#   vpc  = ibm_is_vpc.vpc1.id
+#   cidr = "10.120.0.0/24"
+# }
 
 # data "ibm_is_instance" "ds_instance" {
 #   name = "vsi_instance"
@@ -40,7 +40,8 @@ resource "ibm_is_subnet" "subnet1" {
   resource_group = "5598fcfd528744c9be5824a99742f0a4"
   vpc             = ibm_is_vpc.vpc1.id
   zone            = var.zone1
-  ipv4_cidr_block = "10.240.0.0/28"
+  # ipv4_cidr_block = "10.240.0.0/28"
+  total_ipv4_address_count = 256
 }
 
 resource "ibm_is_security_group" "sg1" {
