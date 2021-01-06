@@ -147,8 +147,13 @@ resource "ibm_is_subnet" "subnet1" {
 #   ipsec_policy  = ibm_is_ipsec_policy.example.id
 # }
 
-resource "ibm_is_ssh_key" "ssh_key_id" {
-  name       = var.ssh_key
+# resource "ibm_is_ssh_key" "ssh_key_id" {
+#   name       = var.ssh_key
+# }
+
+# Define SSH Key for use with VM
+data ibm_is_ssh_key "ssh_key_id" {
+  name = var.ssh_key
 }
 
 resource "ibm_is_instance" "instance1" {
@@ -162,7 +167,8 @@ resource "ibm_is_instance" "instance1" {
 
   vpc       = ibm_is_vpc.vpc1.id
   zone      = var.zone1
-  keys      = [ibm_is_ssh_key.sshkey.id]
+  # keys      = [ibm_is_ssh_key.sshkey.id]
+  keys    = data.ibm_is_ssh_key.ssh_key_id.id
   user_data = file("nginx.sh")
 }
 
