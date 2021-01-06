@@ -25,7 +25,6 @@ resource "ibm_is_vpc" "vpc1" {
 
 resource "ibm_is_vpc_address_prefix" "addprefix1" {
   name = "addprefix1"
-  resource_group = RG-cguarany
   zone = var.zone1
   vpc  = ibm_is_vpc.vpc1.id
   cidr = "10.120.0.0/24"
@@ -37,7 +36,6 @@ resource "ibm_is_vpc_address_prefix" "addprefix1" {
 
 resource "ibm_is_subnet" "subnet1" {
   name            = "subnet1"
-  resource_group  = RG-cguarany
   vpc             = ibm_is_vpc.vpc1.id
   zone            = var.zone1
   ipv4_cidr_block = "10.240.0.0/28"
