@@ -12,6 +12,7 @@ locals {
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
   name = var.name
+  resource_group = "RG-cguarany"
 }
 
 # resource "ibm_is_vpc_route" "route1" {
@@ -36,6 +37,7 @@ resource "ibm_is_vpc_address_prefix" "addprefix1" {
 
 resource "ibm_is_subnet" "subnet1" {
   name            = "subnet1"
+  resource_group = "RG-cguarany"
   vpc             = ibm_is_vpc.vpc1.id
   zone            = var.zone1
   ipv4_cidr_block = "10.240.0.0/28"
@@ -43,6 +45,7 @@ resource "ibm_is_subnet" "subnet1" {
 
 resource "ibm_is_security_group" "sg1" {
   name = "sg1"
+  resource_group = "RG-cguarany"
   vpc  = ibm_is_vpc.vpc1.id
 }
 
@@ -74,7 +77,7 @@ resource "ibm_is_instance" "instance1" {
 
 resource "ibm_is_floating_ip" "floatingip1" {
   name   = "fip1"
-  resource_group = RG-cguarany
+  resource_group = "RG-cguarany"
   target = ibm_is_instance.instance1.primary_network_interface[0].id
 }
 
