@@ -1,5 +1,18 @@
+# Define Provider, VPC Gen2 and Region
+provider "ibm" {
+  generation = 2
+  region = "eu-de"
+}
+
+locals {
+  BASENAME = var.name 
+  ZONE     = "eu-de-1"
+}
+
+# Cria VPC
 resource "ibm_is_vpc" "vpc1" {
-  name = var.name
+  name = var.name-vpc
+  resource_group = RG-cguarany
 }
 
 # resource "ibm_is_vpc_route" "route1" {
@@ -13,6 +26,7 @@ resource "ibm_is_vpc" "vpc1" {
 
 resource "ibm_is_vpc_address_prefix" "addprefix1" {
   name = "addprefix1"
+  resource_group = RG-cguarany
   zone = var.zone1
   vpc  = ibm_is_vpc.vpc1.id
   cidr = "10.120.0.0/24"
@@ -24,128 +38,16 @@ data "ibm_is_instance" "ds_instance" {
 
 resource "ibm_is_subnet" "subnet1" {
   name            = "subnet1"
+  resource_group  = RG-cguarany
   vpc             = ibm_is_vpc.vpc1.id
   zone            = var.zone1
   ipv4_cidr_block = "10.240.0.0/28"
 }
 
-# resource "ibm_is_lb" "lb1" {
-#   name    = "lb1"
-#   subnets = [ibm_is_subnet.subnet1.id]
-# }
-
-# resource "ibm_is_lb_pool" "lbpool1" {
-#   name           = "lbpool1"
-#   lb             = ibm_is_lb.lb1.id
-#   algorithm      = "round_robin"
-#   protocol       = "http"
-#   health_delay   = 60
-#   health_retries = 5
-#   health_timeout = 30
-#   health_type    = "http"
-# }
-
-# resource "ibm_is_lb_pool_member" "lbpoolmem1" {
-#   lb             = ibm_is_lb.lb1.id
-#   pool           = ibm_is_lb_pool.lbpool1.id
-#   port           = 8080
-#   target_address = "127.0.0.1"
-#   weight         = 60
-# }
-
-# resource "ibm_is_lb_listener" "lblistener1" {
-#   lb       = ibm_is_lb.lb1.id
-#   port     = "9086"
-#   protocol = "http"
-# }
-# resource "ibm_is_lb_listener_policy" "lb_listener_policy" {
-#   lb                      = ibm_is_lb.lb1.id
-#   listener                = ibm_is_lb_listener.lblistener1.listener_id
-#   action                  = "redirect"
-#   priority                = 2
-#   name                    = "mylistenerpolicy"
-#   target_http_status_code = 302
-#   target_url              = "https://www.google.com"
-#   rules {
-#     condition = "contains"
-#     type      = "header"
-#     field     = "1"
-#     value     = "2"
-#   }
-# }
-
-# resource "ibm_is_lb_listener_policy_rule" "lb_listener_policy_rule" {
-#   lb        = ibm_is_lb.lb1.id
-#   listener  = ibm_is_lb_listener.lblistener1.listener_id
-#   policy    = ibm_is_lb_listener_policy.lb_listener_policy.policy_id
-#   condition = "equals"
-#   type      = "header"
-#   field     = "MY-APP-HEADER"
-#   value     = "updateVal"
-# }
-
-
-# resource "ibm_is_lb" "nlb1" {
-#   name    = "nlb1"
-#   subnets = [ibm_is_subnet.subnet1.id]
-#   type    = "public"
-#   profile = "network-fixed"
-# }
-
-# resource "ibm_is_lb_pool" "nlbpool1" {
-#   name           = "nlbpool1"
-#   lb             = ibm_is_lb.nlb1.id
-#   algorithm      = "weighted_round_robin"
-#   protocol       = "tcp"
-#   health_delay   = 60
-#   health_retries = 5
-#   health_timeout = 30
-#   health_type    = "tcp"
-# }
-
-# resource "ibm_is_lb_pool_member" "my_nlb_pool_mem" {
-#   lb        = ibm_is_lb.nlb1.id
-#   pool      = ibm_is_lb_pool.nlbpool1.id
-#   port      = 8080
-#   weight    = 20
-#   target_id = data.ibm_is_instance.ds_instance.id
-# }
-
-# resource "ibm_is_vpn_gateway" "VPNGateway" {
-#   name   = "vpn1"
-#   subnet = ibm_is_subnet.subnet1.id
-#   mode   = "route"
-# }
-
-# data "ibm_is_vpn_gateways" "vpngateways" {
-# }
-
-# resource "ibm_is_vpn_gateway_connection" "VPNGatewayConnection" {
-#   name          = "vpnconn"
-#   vpn_gateway   = ibm_is_vpn_gateway.VPNGateway.id
-#   peer_address  = ibm_is_vpn_gateway.VPNGateway.public_ip_address
-#   preshared_key = "VPNDemoPassword"
-# }
-
-# data "ibm_is_vpn_gateway_connections" "VPNGatewayConnections" {
-#   vpn_gateway = ibm_is_vpn_gateway.VPNGateway.id
-# }
-
-# resource "ibm_is_vpn_gateway" "VPNGateway1" {
-#   name   = "vpn1"
-#   subnet = ibm_is_subnet.subnet1.id
-#   mode   = "policy"
-# }
-
-# resource "ibm_is_vpn_gateway_connection" "VPNGatewayConnection1" {
-#   name          = "vpnconn1"
-#   vpn_gateway   = ibm_is_vpn_gateway.VPNGateway1.id
-#   peer_address  = ibm_is_vpn_gateway.VPNGateway1.public_ip_address
-#   preshared_key = "VPNDemoPassword"
-#   local_cidrs   = [ibm_is_subnet.subnet1.ipv4_cidr_block]
-#   peer_cidrs    = [ibm_is_subnet.subnet2.ipv4_cidr_block]
-#   ipsec_policy  = ibm_is_ipsec_policy.example.id
-# }
+resource "ibm_is_security_group" "sg1" {
+  name = "sg1"
+  vpc  = ibm_is_vpc.vpc1.id
+}
 
 # resource "ibm_is_ssh_key" "ssh_key_id" {
 #   name       = var.ssh_key
@@ -158,6 +60,7 @@ data ibm_is_ssh_key "ssh_key_id" {
 
 resource "ibm_is_instance" "instance1" {
   name    = "instance1"
+  resource_group = RG-cguarany
   image   = var.image
   profile = var.profile
 
@@ -168,18 +71,14 @@ resource "ibm_is_instance" "instance1" {
   vpc       = ibm_is_vpc.vpc1.id
   zone      = var.zone1
   # keys      = [ibm_is_ssh_key.sshkey.id]
-  keys    = data.ibm_is_ssh_key.ssh_key_id.id
+  keys      = data.ibm_is_ssh_key.ssh_key_id.id
   user_data = file("nginx.sh")
 }
 
 resource "ibm_is_floating_ip" "floatingip1" {
   name   = "fip1"
+  resource_group = RG-cguarany
   target = ibm_is_instance.instance1.primary_network_interface[0].id
-}
-
-resource "ibm_is_security_group" "sg1" {
-  name = "sg1"
-  vpc  = ibm_is_vpc.vpc1.id
 }
 
 resource "ibm_is_security_group_network_interface_attachment" "sgnic1" {
@@ -486,3 +385,7 @@ resource "ibm_is_vpc_routing_table" "test_cr_route_table1" {
 # data "ibm_is_virtual_endpoint_gateway_ips" "data_virtual_endpoint_gateway_ips" {
 #   gateway = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
 # }
+
+output sshcommand {
+  value = ssh root@$ibm_is_floating_ip.fip1.address
+}
