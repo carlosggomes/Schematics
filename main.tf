@@ -147,7 +147,7 @@ resource "ibm_is_subnet" "subnet1" {
 #   ipsec_policy  = ibm_is_ipsec_policy.example.id
 # }
 
-resource "ibm_is_ssh_key" "sshkey" {
+resource "ibm_is_ssh_key" "ssh_key_id" {
   name       = var.ssh_key
 }
 
@@ -390,93 +390,93 @@ resource "ibm_is_vpc_routing_table" "test_cr_route_table1" {
 }
 
 // subnet 
-resource "ibm_is_subnet" "test_cr_subnet1" {
-  depends_on      = [ibm_is_vpc_routing_table.test_cr_route_table1]
-  name            = "test-cr-subnet1"
-  vpc             = data.ibm_is_vpc.vpc1.id
-  zone            = "eu-de-1"
-  ipv4_cidr_block = "10.240.10.0/24"
-  routing_table   = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
-}
+# resource "ibm_is_subnet" "test_cr_subnet1" {
+#   depends_on      = [ibm_is_vpc_routing_table.test_cr_route_table1]
+#   name            = "test-cr-subnet1"
+#   vpc             = data.ibm_is_vpc.vpc1.id
+#   zone            = "eu-de-1"
+#   ipv4_cidr_block = "10.240.10.0/24"
+#   routing_table   = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
+# }
 
-//custom route 
-resource "ibm_is_vpc_routing_table_route" "test_custom_route1" {
-  depends_on    = [ibm_is_subnet.test_cr_subnet1]
-  vpc           = ibm_is_vpc.vpc1.id
-  routing_table = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
-  zone          = "eu-de-1"
-  name          = "custom-route-1"
-  next_hop      = ibm_is_instance.instance2.primary_network_interface[0].primary_ipv4_address
-  action        = "deliver"
-  destination   = ibm_is_subnet.test_cr_subnet1.ipv4_cidr_block
-}
+# //custom route 
+# resource "ibm_is_vpc_routing_table_route" "test_custom_route1" {
+#   depends_on    = [ibm_is_subnet.test_cr_subnet1]
+#   vpc           = ibm_is_vpc.vpc1.id
+#   routing_table = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
+#   zone          = "eu-de-1"
+#   name          = "custom-route-1"
+#   next_hop      = ibm_is_instance.instance2.primary_network_interface[0].primary_ipv4_address
+#   action        = "deliver"
+#   destination   = ibm_is_subnet.test_cr_subnet1.ipv4_cidr_block
+# }
 
-// data source for vpc default routing table
-data "ibm_is_vpc_default_routing_table" "default_table_test" {
-  vpc = ibm_is_vpc.vpc1.id
-}
+# // data source for vpc default routing table
+# data "ibm_is_vpc_default_routing_table" "default_table_test" {
+#   vpc = ibm_is_vpc.vpc1.id
+# }
 
-// data source for vpc routing tables
-data "ibm_is_vpc_routing_tables" "tables_test" {
-  vpc = ibm_is_vpc.vpc1.id
-}
+# // data source for vpc routing tables
+# data "ibm_is_vpc_routing_tables" "tables_test" {
+#   vpc = ibm_is_vpc.vpc1.id
+# }
 
-// data source for vpc routing table routes
-data "ibm_is_vpc_routing_table_routes" "routes_test" {
-  vpc           = ibm_is_vpc.vpc1.id
-  routing_table = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
-}
+# // data source for vpc routing table routes
+# data "ibm_is_vpc_routing_table_routes" "routes_test" {
+#   vpc           = ibm_is_vpc.vpc1.id
+#   routing_table = ibm_is_vpc_routing_table.test_cr_route_table1.routing_table
+# }
 
-resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway1" {
-  name = "my-endpoint-gateway-1"
-  target {
-    name          = "ibm-dns-server2"
-    resource_type = "provider_infrastructure_service"
-  }
-  vpc            = ibm_is_vpc.testacc_vpc.id
-  resource_group = data.ibm_resource_group.test_acc.id
-}
+# resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway1" {
+#   name = "my-endpoint-gateway-1"
+#   target {
+#     name          = "ibm-dns-server2"
+#     resource_type = "provider_infrastructure_service"
+#   }
+#   vpc            = ibm_is_vpc.testacc_vpc.id
+#   resource_group = data.ibm_resource_group.test_acc.id
+# }
 
-resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway2" {
-  name = "my-endpoint-gateway-1"
-  target {
-    name          = "ibm-dns-server2"
-    resource_type = "provider_infrastructure_service"
-  }
-  vpc = ibm_is_vpc.testacc_vpc.id
-  ips {
-    subnet = ibm_is_subnet.testacc_subnet.id
-    name      = "test-reserved-ip1"
-  }
-  resource_group = data.ibm_resource_group.test_acc.id
-}
+# resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway2" {
+#   name = "my-endpoint-gateway-1"
+#   target {
+#     name          = "ibm-dns-server2"
+#     resource_type = "provider_infrastructure_service"
+#   }
+#   vpc = ibm_is_vpc.testacc_vpc.id
+#   ips {
+#     subnet = ibm_is_subnet.testacc_subnet.id
+#     name      = "test-reserved-ip1"
+#   }
+#   resource_group = data.ibm_resource_group.test_acc.id
+# }
 
-resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway3" {
-  name = "my-endpoint-gateway-1"
-  target {
-    name          = "ibm-dns-server2"
-    resource_type = "provider_infrastructure_service"
-  }
-  vpc = ibm_is_vpc.testacc_vpc.id
-  ips {
-    id = "0737-5ab3c18e-6f6c-4a69-8f48-20e3456647b5"
-  }
-  resource_group = data.ibm_resource_group.test_acc.id
-}
+# resource "ibm_is_virtual_endpoint_gateway" "endpoint_gateway3" {
+#   name = "my-endpoint-gateway-1"
+#   target {
+#     name          = "ibm-dns-server2"
+#     resource_type = "provider_infrastructure_service"
+#   }
+#   vpc = ibm_is_vpc.testacc_vpc.id
+#   ips {
+#     id = "0737-5ab3c18e-6f6c-4a69-8f48-20e3456647b5"
+#   }
+#   resource_group = data.ibm_resource_group.test_acc.id
+# }
 
-resource "ibm_is_virtual_endpoint_gateway_ip" "virtual_endpoint_gateway_ip" {
-  gateway    = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
-  reserved_ip = "0674-5ab3c18e-6f6c-4a69-8f48-20e3456647b5"
-}
+# resource "ibm_is_virtual_endpoint_gateway_ip" "virtual_endpoint_gateway_ip" {
+#   gateway    = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
+#   reserved_ip = "0674-5ab3c18e-6f6c-4a69-8f48-20e3456647b5"
+# }
 
-data "ibm_is_virtual_endpoint_gateway" "data_virtual_endpoint_gateway" {
-  name = ibm_is_virtual_endpoint_gateway.endpoint_gateway.name
-}
+# data "ibm_is_virtual_endpoint_gateway" "data_virtual_endpoint_gateway" {
+#   name = ibm_is_virtual_endpoint_gateway.endpoint_gateway.name
+# }
 
-data "ibm_is_virtual_endpoint_gateways" "data_virtual_endpoint_gateways" {
+# data "ibm_is_virtual_endpoint_gateways" "data_virtual_endpoint_gateways" {
 
-}
+# }
 
-data "ibm_is_virtual_endpoint_gateway_ips" "data_virtual_endpoint_gateway_ips" {
-  gateway = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
-}
+# data "ibm_is_virtual_endpoint_gateway_ips" "data_virtual_endpoint_gateway_ips" {
+#   gateway = ibm_is_virtual_endpoint_gateway.endpoint_gateway.id
+# }
