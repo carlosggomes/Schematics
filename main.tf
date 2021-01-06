@@ -57,7 +57,7 @@ data ibm_is_ssh_key "ssh_key_id" {
 
 resource "ibm_is_instance" "instance1" {
   name    = "instance1"
-  resource_group = RG-cguarany
+  resource_group = "RG-cguarany"
   image   = var.image
   profile = var.profile
 
