@@ -6,7 +6,7 @@ provider "ibm" {
 
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
-  name = var.name
+  name = [var.name-vpc]
   resource_group = "5598fcfd528744c9be5824a99742f0a4"
 }
 
