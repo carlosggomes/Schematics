@@ -4,9 +4,14 @@ provider "ibm" {
   region = "eu-de"
 }
 
+locals {
+  BASENAME = var.name
+  ZONE     = "eu-de-1"
+}
+
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
-  name = "var.name-vpc"
+  name = [local.BASENAME-vpc]
   resource_group = "5598fcfd528744c9be5824a99742f0a4"
 }
 
