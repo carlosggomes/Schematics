@@ -11,7 +11,7 @@ locals {
 
 # Cria VPC
 resource "ibm_is_vpc" "vpc1" {
-  name = [local.BASENAME-vpc]
+  name = "[local.BASENAME]-vpc"
   resource_group = "5598fcfd528744c9be5824a99742f0a4"
 }
 
