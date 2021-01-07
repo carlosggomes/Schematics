@@ -110,8 +110,8 @@ resource "ibm_is_volume" "vol2" {
   capacity = 200
 }
 
-resource "ibm_is_floating_ip" "floatingip1" {
-  name   = format ("%s-fip1", var.name)
-  resource_group = "5598fcfd528744c9be5824a99742f0a4"
-  target = ibm_is_instance.instance1.primary_network_interface[0].id
-}
+# resource "ibm_is_floating_ip" "floatingip1" {
+#   name   = format ("%s-fip1", var.name)
+#   resource_group = "5598fcfd528744c9be5824a99742f0a4"
+#   target = ibm_is_instance.instance1.primary_network_interface[0].id
+# }
