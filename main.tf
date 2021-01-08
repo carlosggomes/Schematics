@@ -94,24 +94,8 @@ resource "ibm_is_security_group_network_interface_attachment" "sgnic1" {
   network_interface = ibm_is_instance.instance1.primary_network_interface[0].id
 }
 
-# resource "ibm_is_volume" "vol1" {
-#   name    = format ("%s-vol1", var.name)
-#   resource_group = "5598fcfd528744c9be5824a99742f0a4"
-#   profile = "10iops-tier"
-#   zone    = var.zone1
-# }
-
-# resource "ibm_is_volume" "vol2" {
-#   name     = format ("%s-vol2", var.name)
-#   resource_group = "5598fcfd528744c9be5824a99742f0a4"
-#   profile  = "custom"
-#   zone     = var.zone1
-#   iops     = 1000
-#   capacity = 200
-# }
-
-# resource "ibm_is_floating_ip" "floatingip1" {
-#   name   = format ("%s-fip1", var.name)
-#   resource_group = "5598fcfd528744c9be5824a99742f0a4"
-#   target = ibm_is_instance.instance1.primary_network_interface[0].id
-# }
+resource "ibm_is_floating_ip" "floatingip1" {
+  name   = format ("%s-fip1", var.name)
+  resource_group = "5598fcfd528744c9be5824a99742f0a4"
+  target = ibm_is_instance.instance1.primary_network_interface[0].id
+}
