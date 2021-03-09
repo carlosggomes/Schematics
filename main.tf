@@ -47,18 +47,18 @@ resource "ibm_is_security_group_rule" "sg1_icmp_rule" {
   }
 }
 
-# resource "ibm_is_security_group_rule" "sg1_app_tcp_rule" {
-#   # depends_on = [ibm_is_floating_ip.floatingip1]
-#   # group      = ibm_is_vpc.vpc1.default_security_group
-#   group      = ibm_is_security_group.sg1.id
-#   direction  = "inbound"
-#   remote     = "0.0.0.0/0"
+resource "ibm_is_security_group_rule" "sg1_app_tcp_rule" {
+  # depends_on = [ibm_is_floating_ip.floatingip1]
+  # group      = ibm_is_vpc.vpc1.default_security_group
+  group      = ibm_is_security_group.sg1.id
+  direction  = "inbound"
+  remote     = "0.0.0.0/0"
 
-#   tcp {
-#     port_min = 80
-#     port_max = 80
-#   }
-# }
+  tcp {
+    port_min = 80
+    port_max = 80
+  }
+}
 
 resource "ibm_is_subnet" "subnet1" {
   name            = format ("%s-subnet1", var.name)
